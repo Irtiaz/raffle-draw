@@ -1,0 +1,80 @@
+<html>
+
+	<head>
+		<title>Randomizer</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<head>
+
+	<body>
+		<form onsubmit="handleSubmit(event)">
+			<input id="name-input" autocomplete="off"> <button>Enter name</button>
+		</form>
+		<button onclick="drawRandomName()" style="display: none;" id="draw-button">Draw a name</button>
+
+		<div class="lists-wrapper">
+			<div class="list">
+				List of names
+				<ul id="names-list"></ul>
+			</div>
+			<div class="list">
+				Drawn out names
+				<ol id="drawn-names-list"></ol>
+			</div>
+		</div>
+
+		<style>
+			.lists-wrapper {
+				display: flex;
+				justify-content: space-around;
+				flex-flow: row wrap;
+			}
+
+			.list {
+				border: 1px solid black;
+				padding: 1em;
+				margin: 1em;
+			}
+
+		</style>
+
+		<script>
+			const nameInput = document.getElementById('name-input');
+			const drawButton = document.getElementById('draw-button')
+			const namesUl = document.getElementById('names-list');
+			const drawnNamesList = document.getElementById('drawn-names-list');
+
+			const names = [];
+
+			function handleSubmit(event) {
+				event.preventDefault();
+
+				const name = nameInput.value;
+				names.push(name);
+				nameInput.value = '';
+
+				const nameLi = document.createElement('li');
+				nameLi.textContent = name;
+				namesUl.appendChild(nameLi);
+
+				drawButton.style.display = 'inline-block';
+			}
+
+			function drawRandomName() {
+				const index = Math.floor(Math.random() * names.length);
+				const name = names[index];
+
+				const nameLi = namesUl.children[index];
+				nameLi.remove();
+
+				names.splice(index, 1);
+				if (names.length === 0) drawButton.style.display = 'none';
+
+				alert(name);
+
+				const drawnNameLi = document.createElement('li');
+				drawnNameLi.textContent = name;
+				drawnNamesList.appendChild(drawnNameLi);
+			}
+		</script>
+	</body>
+</html>
